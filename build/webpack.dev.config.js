@@ -21,7 +21,7 @@ module.exports = merge(baseWpConfig, {
 			{
 				test: /\.vue$/,
 				loader: "vue-loader"
-			}			
+			}
 		]
 	},
 
@@ -31,6 +31,6 @@ module.exports = merge(baseWpConfig, {
 
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NoErrorsPlugin()
+		new webpack.NoEmitOnErrorsPlugin()
 	]
 });
