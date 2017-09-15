@@ -20,29 +20,12 @@ if (WEBPACK_BUNDLE) {
 
 	global.rootPath = path.normalize(path.join(path.dirname(bundleFullPath), ".."));
 }
-
 console.log("Application root path: " + global.rootPath);
 
-module.exports = {
 
-	isDevMode() {
-		return !process.env.NODE_ENV || process.env.NODE_ENV === "development";
-	},
-
-	isProductionMode() {
-		return process.env.NODE_ENV === "production";
-	},
-
-	isTestMode() {
-		return process.env.NODE_ENV === "test";
-	}
-};
-
-// Load external configuration if exists `config.js`
+// Load external configuration `config.js`; create if missing.
 let externalConfig = {};
-
 const extConfigFile = path.join(global.rootPath, "config.js");
-
 try {
 	if (!fs.existsSync(extConfigFile)) {
 		console.warn(chalk.yellow.bold("External production configuration not found!. Create a default `config.js` file..."));
@@ -65,20 +48,30 @@ try {
 	process.exit(1);
 }
 
-
-let baseConfig = require("./base");
-
+// Read a dedicated config file if it exists.
 let config = {};
-if (module.exports.isTestMode()) {
-	console.log("Load test config...");
-	config = require("./test");
-	// In test mode, we don't use the external config.js file
-	externalConfig = {};
-}
-else if (module.exports.isProductionMode()) {
-	console.log("Load production config...");
-	config = require("./prod");
+const configFile = path.join(global.rootPath,
+		"server/config/" + process.env.NODE_ENV + ".js");
+if (fs.existsSync(configFile)) {
+	console.log("Load " + process.env.NODE_ENV + " config...");
+	config = require("./" + process.env.NODE_ENV);
 }
 
-module.exports = _.defaultsDeep(externalConfig, config, baseConfig, module.exports);
+// Combine them all.
+module.exports = _.defaultsDeep(
+	externalConfig,
+	config,
+	require("./base"),
+	{
+		isDevMode() {
+			return !process.env.NODE_ENV || process.env.NODE_ENV === "development";
+		},
 
+		isProductionMode() {
+			return process.env.NODE_ENV === "production";
+		},
+
+		isTestMode() {
+			return process.env.NODE_ENV === "test";
+		}
+	});
