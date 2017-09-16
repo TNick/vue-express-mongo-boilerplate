@@ -83,17 +83,17 @@ class Service {
 				let cacheKey = self.getCacheKey(action.name, ctx.params);
 
 				return self.getFromCache(cacheKey)
-				.then((cachedJSON) => {
-					if (cachedJSON != null) {
+					.then((cachedJSON) => {
+						if (cachedJSON != null) {
 						// Found in the cache!
-						return cachedJSON;
-					}
+							return cachedJSON;
+						}
 
-					return handler(ctx).then((json) => {
-						self.putToCache(cacheKey, json);
-						return json;
-					});					
-				});
+						return handler(ctx).then((json) => {
+							self.putToCache(cacheKey, json);
+							return json;
+						});					
+					});
 			};
 		};
 
@@ -241,30 +241,30 @@ class Service {
 			else
 				return null;				
 		})
-		.then((data) => {
-			if (data)
-				return data;
+			.then((data) => {
+				if (data)
+					return data;
 			
-			let query;
-			if (_.isArray(id)) {
-				query = this.collection.find({ _id: { $in: id} });
-			} else
-				query = this.collection.findById(id);
+				let query;
+				if (_.isArray(id)) {
+					query = this.collection.find({ _id: { $in: id} });
+				} else
+					query = this.collection.findById(id);
 
-			return query.exec().then((docs) => {
-				return this.toJSON(docs);
-			})
-			.then((json) => {
-				return this.populateModels(json);
-			})
-			.then((json) => {
-				// Save to cache
-				if (cacheKey)
-					this.putToCache(cacheKey, json);
+				return query.exec().then((docs) => {
+					return this.toJSON(docs);
+				})
+					.then((json) => {
+						return this.populateModels(json);
+					})
+					.then((json) => {
+						// Save to cache
+						if (cacheKey)
+							this.putToCache(cacheKey, json);
 
-				return json;
-			});
-		});			
+						return json;
+					});
+			});			
 	}	
 
 	/**

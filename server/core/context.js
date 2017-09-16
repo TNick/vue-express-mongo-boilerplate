@@ -230,32 +230,32 @@ class Context {
 		return Promise.resolve()
 
 		// check logged in
-		.then(() => {
-			if (!this.user)
-				this.errorUnauthorized();
-		})
+			.then(() => {
+				if (!this.user)
+					this.errorUnauthorized();
+			})
 
 		// check role
-		.then(() => {
-			if (permission == C.PERM_ADMIN && !this.isAdmin()) {
-				this.errorForbidden();
-			}
-			else if (permission == C.PERM_USER && this.user.roles.indexOf(C.ROLE_USER) == -1) {
-				this.errorForbidden();
-			}
-		})
+			.then(() => {
+				if (permission == C.PERM_ADMIN && !this.isAdmin()) {
+					this.errorForbidden();
+				}
+				else if (permission == C.PERM_USER && this.user.roles.indexOf(C.ROLE_USER) == -1) {
+					this.errorForbidden();
+				}
+			})
 
 		// check owner
-		.then(() => {
-			if (permission == C.PERM_OWNER && _.isFunction(this.service.$schema.ownerChecker)) {
-				return this.service.$schema.ownerChecker(this).catch((err) => {
-					if (_.isObject(err))
-						throw err;
-					else
-						this.errorForbidden(C.ERR_ONLY_OWNER_CAN_EDIT_AND_DELETE, this.t("app:YouAreNotTheOwner"));
-				});
-			}
-		});
+			.then(() => {
+				if (permission == C.PERM_OWNER && _.isFunction(this.service.$schema.ownerChecker)) {
+					return this.service.$schema.ownerChecker(this).catch((err) => {
+						if (_.isObject(err))
+							throw err;
+						else
+							this.errorForbidden(C.ERR_ONLY_OWNER_CAN_EDIT_AND_DELETE, this.t("app:YouAreNotTheOwner"));
+					});
+				}
+			});
 	}
 
 

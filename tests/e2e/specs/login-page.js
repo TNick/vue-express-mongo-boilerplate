@@ -12,7 +12,7 @@ describe("Test login page with username and password", () => {
 	let baseURL;
 
 	before((browser, done) => {
-		baseURL = 'http://localhost:' + browser.globals.test_settings.appPort;
+		baseURL = "http://localhost:" + browser.globals.test_settings.appPort;
 		browser.options.baseURL = baseURL;
 		loginPage = browser.page.loginPage();
 		homePage = browser.page.homePage();
@@ -78,7 +78,7 @@ describe("Test login page with passwordless", () => {
 	let baseURL;
 
 	before((browser, done) => {
-		baseURL = 'http://localhost:' + browser.globals.test_settings.appPort;
+		baseURL = "http://localhost:" + browser.globals.test_settings.appPort;
 		loginPage = browser.page.loginPage();
 		homePage = browser.page.homePage();
 		done();

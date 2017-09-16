@@ -57,16 +57,16 @@ module.exports = {
 			});
 
 			return device.save()
-			.then((doc) => {
-				return this.toJSON(doc);
-			})
-			.then((json) => {
-				return this.populateModels(json);
-			})
-			.then((json) => {
-				this.notifyModelChanges(ctx, "created", json);
-				return json;
-			});	
+				.then((doc) => {
+					return this.toJSON(doc);
+				})
+				.then((json) => {
+					return this.populateModels(json);
+				})
+				.then((json) => {
+					this.notifyModelChanges(ctx, "created", json);
+					return json;
+				});	
 		},
 
 		update(ctx) {
@@ -74,48 +74,48 @@ module.exports = {
 			this.validateParams(ctx);
 
 			return this.collection.findById(ctx.modelID).exec()
-			.then((doc) => {
+				.then((doc) => {
 
-				if (ctx.params.address != null)
-					doc.address = ctx.params.address;
+					if (ctx.params.address != null)
+						doc.address = ctx.params.address;
 
-				if (ctx.params.type != null)
-					doc.type = ctx.params.type;
+					if (ctx.params.type != null)
+						doc.type = ctx.params.type;
 
-				if (ctx.params.name != null)
-					doc.name = ctx.params.name;
+					if (ctx.params.name != null)
+						doc.name = ctx.params.name;
 
-				if (ctx.params.description != null)
-					doc.description = ctx.params.description;
+					if (ctx.params.description != null)
+						doc.description = ctx.params.description;
 
-				if (ctx.params.status != null)
-					doc.status = ctx.params.status;
+					if (ctx.params.status != null)
+						doc.status = ctx.params.status;
 
-				return doc.save();
-			})
-			.then((doc) => {
-				return this.toJSON(doc);
-			})
-			.then((json) => {
-				return this.populateModels(json);
-			})
-			.then((json) => {
-				this.notifyModelChanges(ctx, "updated", json);
-				return json;
-			});								
+					return doc.save();
+				})
+				.then((doc) => {
+					return this.toJSON(doc);
+				})
+				.then((json) => {
+					return this.populateModels(json);
+				})
+				.then((json) => {
+					this.notifyModelChanges(ctx, "updated", json);
+					return json;
+				});								
 		},
 
 		remove(ctx) {
 			ctx.assertModelIsExist(ctx.t("app:DeviceNotFound"));
 
 			return Device.remove({ _id: ctx.modelID })
-			.then(() => {
-				return ctx.model;
-			})
-			.then((json) => {
-				this.notifyModelChanges(ctx, "removed", json);
-				return json;
-			});		
+				.then(() => {
+					return ctx.model;
+				})
+				.then((json) => {
+					this.notifyModelChanges(ctx, "removed", json);
+					return json;
+				});		
 		}
 
 	},

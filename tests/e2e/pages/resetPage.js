@@ -3,7 +3,7 @@
 let commands = {
 	submit(password, confirm) {
 		return this
-			.waitForElementVisible('@passwordField', 10000)
+			.waitForElementVisible("@passwordField", 10000)
 			.assert.containsText("@title", "NEW PASSWORD")
 			.assert.elementPresent("@passwordField")
 			.assert.elementPresent("@confirmField")

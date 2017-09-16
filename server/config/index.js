@@ -16,7 +16,7 @@ if (WEBPACK_BUNDLE) {
 		bundleFullPath = process.argv[1];
 	else
 		bundleFullPath = process.cwd();
-		// bundleFullPath = path.dirname(process.argv[0]);
+	// bundleFullPath = path.dirname(process.argv[0]);
 
 	global.rootPath = path.normalize(path.join(path.dirname(bundleFullPath), ".."));
 }
@@ -51,7 +51,7 @@ try {
 // Read a dedicated config file if it exists.
 let config = {};
 const configFile = path.join(global.rootPath,
-		"server/config/" + process.env.NODE_ENV + ".js");
+	"server/config/" + process.env.NODE_ENV + ".js");
 if (fs.existsSync(configFile)) {
 	console.log("Load " + process.env.NODE_ENV + " config...");
 	config = require("./" + process.env.NODE_ENV);

@@ -14,7 +14,7 @@ describe("Test forgot page", () => {
 	let baseURL;
 
 	before((browser, done) => {
-		baseURL = 'http://localhost:' + browser.globals.test_settings.appPort;
+		baseURL = "http://localhost:" + browser.globals.test_settings.appPort;
 		browser.options.baseURL = baseURL;
 
 		forgotPage = browser.page.forgotPage();
@@ -82,7 +82,7 @@ describe("Test forgot page", () => {
 			.assert.elementPresent("@flashError")
 			.assert.containsText("@flashError", "Password must be at least 6 characters long!")
 			.api.pause(pauseTime)
-			.makeScreenshot()
+			.makeScreenshot();
 
 		resetPage
 			// invalid confirm password
@@ -91,12 +91,12 @@ describe("Test forgot page", () => {
 			.assert.elementPresent("@flashError")
 			.assert.containsText("@flashError", "Passwords must match.")
 			.api.pause(pauseTime)
-			.makeScreenshot()
+			.makeScreenshot();
 
 		resetPage
 			// correct new password
 			.submit("newPassword", "newPassword")
-			.api.pause(pauseTime)
+			.api.pause(pauseTime);
 
 		// Check we logged in automatically
 		homePage
@@ -107,7 +107,7 @@ describe("Test forgot page", () => {
 
 		// Logout
 		homePage
-			.logout()
+			.logout();
 
 		// Login with the new password
 		loginPage.navigate()

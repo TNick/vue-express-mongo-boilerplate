@@ -64,221 +64,221 @@
 
 <script>
  /* global _ */
-	import Vue from "vue";
-	import marked from "marked";
-	import toast from "../../core/toastr";
-	import { cloneDeep } from "lodash";
-	import { validators, schema as schemaUtils } from "vue-form-generator";
+import Vue from "vue";
+import marked from "marked";
+import toast from "../../core/toastr";
+import { cloneDeep } from "lodash";
+import { validators, schema as schemaUtils } from "vue-form-generator";
 
-	import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
-	export default {
+export default {
 
-		computed: {
-			...mapGetters("posts", [
-				"posts",
-				"hasMore",
-				"fetching",
-				"sort",
-				"viewMode"
-			]),
-			...mapGetters("session", [
-				"me"
-			])
-		},
+	computed: {
+		...mapGetters("posts", [
+			"posts",
+			"hasMore",
+			"fetching",
+			"sort",
+			"viewMode"
+		]),
+		...mapGetters("session", [
+			"me"
+		])
+	},
 
-		/**
+	/**
 		 * Set page schema as data property
 		 */
-		data() {
-			return {
-				showForm: false,
-				isNewPost: false,
-				model: null,
-				schema: {
-					fields: [
-						{
-							type: "text",
-							label: this.tr("Title"),
-							model: "title",
-							featured: true,
-							required: true,
-							placeholder: this.tr("TitleOfPost"),
-							validator: validators.string
-						},
-						{
-							type: "textArea",
-							label: this.tr("Content"),
-							model: "content",
-							featured: true,
-							required: true,
-							rows: 10,
-							placeholder: this.tr("ContentOfPost"),
-							validator: validators.string
-						}
-					]
-				}
-			};
-		},
+	data() {
+		return {
+			showForm: false,
+			isNewPost: false,
+			model: null,
+			schema: {
+				fields: [
+					{
+						type: "text",
+						label: this.tr("Title"),
+						model: "title",
+						featured: true,
+						required: true,
+						placeholder: this.tr("TitleOfPost"),
+						validator: validators.string
+					},
+					{
+						type: "textArea",
+						label: this.tr("Content"),
+						model: "content",
+						featured: true,
+						required: true,
+						rows: 10,
+						placeholder: this.tr("ContentOfPost"),
+						validator: validators.string
+					}
+				]
+			}
+		};
+	},
 
-		/**
+	/**
 		 * Socket handlers. Every property is an event handler
 		 */
-		socket: {
+	socket: {
 
-			prefix: "/posts/",
+		prefix: "/posts/",
 
-			events: {
-				/**
+		events: {
+			/**
 				 * New device added
 				 * @param  {Object} res Device object
 				 */
-				/*
+			/*
 				We don't use it because we don't know we need to add it to the page (filter, sort..etc)
 				created(res) {
 					this.created(res.data);
 					toast.success(this.tr("PostNameAdded", res), this.tr("PostAdded"));
 				},*/
 
-				/**
+			/**
 				 * Post updated
 				 * @param  {Object} res Post object
 				 */
-				updated(res) {
-					this.updated(res.data);
-					toast.success(this.tr("PostNameUpdated", res), this.tr("PostUpdated"));
-				},
+			updated(res) {
+				this.updated(res.data);
+				toast.success(this.tr("PostNameUpdated", res), this.tr("PostUpdated"));
+			},
 
-				voted(res) {
-					this.updated(res.data);
-					toast.success(this.tr("PostNameVoted", res), this.tr("PostUpdated"));
-				},
+			voted(res) {
+				this.updated(res.data);
+				toast.success(this.tr("PostNameVoted", res), this.tr("PostUpdated"));
+			},
 
-				unvoted(res) {
-					this.updated(res.data);
-					toast.success(this.tr("PostNameUnvoted", res), this.tr("PostUpdated"));
-				},
+			unvoted(res) {
+				this.updated(res.data);
+				toast.success(this.tr("PostNameUnvoted", res), this.tr("PostUpdated"));
+			},
 
-				/**
+			/**
 				 * Post removed
 				 * @param  {Object} res Post object
 				 */
-				removed(res) {
-					this.removed(res.data);
-					toast.success(this.tr("PostNameDeleted", res), this.tr("PostDeleted"));
-				}
+			removed(res) {
+				this.removed(res.data);
+				toast.success(this.tr("PostNameDeleted", res), this.tr("PostDeleted"));
 			}
+		}
+	},
+
+	methods: {
+		...mapActions("posts", [
+			"getRows",
+			"loadMoreRows",
+			"changeSort",
+			"changeViewMode",
+			"vote",
+			"unVote",
+			"saveRow",
+			"updateRow",
+			"removeRow",
+			"updated",
+			"removed"
+		]),
+
+		markdown(content) {
+			return marked(content);
 		},
 
-		methods: {
-			...mapActions("posts", [
-				"getRows",
-				"loadMoreRows",
-				"changeSort",
-				"changeViewMode",
-				"vote",
-				"unVote",
-				"saveRow",
-				"updateRow",
-				"removeRow",
-				"updated",
-				"removed"
-			]),
+		iVoted(post) {
+			return _.find(post.voters, (user) => user.code == this.me.code) != null;
+		},
 
-			markdown(content) {
-				return marked(content);
-			},
+		toggleVote(post) {
+			if (this.iVoted(post))
+				this.unVote(post);
+			else
+				this.vote(post);
+		},
 
-			iVoted(post) {
-				return _.find(post.voters, (user) => user.code == this.me.code) != null;
-			},
+		lastVoters(post, count = 5) {
+			if (post.voters && post.voters.length > 0) {
+				let voters = _.clone(post.voters).reverse().slice(0, 5);
+				return voters;
+			}
+			return [];
+		},
 
-			toggleVote(post) {
-				if (this.iVoted(post))
-					this.unVote(post);
+		createdAgo(post) {
+			return this.tr("CreatedAgoByName", { ago: Vue.filter("ago")(post.createdAt), name: post.author.fullName } );
+		},
+
+		editedAgo(post) {
+			if (post.editedAt)
+				return this.tr("EditedAgo", { ago: Vue.filter("ago")(post.editedAt) } );
+		},
+
+		newPost() {
+			this.model = schemaUtils.createDefaultObject(this.schema);
+			this.showForm = true;
+			this.isNewPost = true;
+
+			this.focusFirstInput();
+		},
+
+		editPost(post) {
+			this.model = cloneDeep(post);
+			this.showForm = true;
+			this.isNewPost = false;
+			this.focusFirstInput();
+		},
+
+		focusFirstInput() {
+			this.$nextTick(() => {
+				let el = document.querySelector(".postForm .form-control:nth-child(1):not([readonly]):not(:disabled)");
+				if (el)
+					el.focus();
+			});
+		},
+
+		focusFirstErrorInput() {
+			this.$nextTick(() => {
+				let el = document.querySelector(".postForm .form-group.error .form-control");
+				if (el)
+					el.focus();
+			});
+		},
+
+		savePost() {
+			if (this.$refs.form.validate()) {
+				if (this.isNewPost)
+					this.saveRow(this.model);
 				else
-					this.vote(post);
-			},
+					this.updateRow(this.model);
 
-			lastVoters(post, count = 5) {
-				if (post.voters && post.voters.length > 0) {
-					let voters = _.clone(post.voters).reverse().slice(0, 5);
-					return voters;
-				}
-				return [];
-			},
-
-			createdAgo(post) {
-				return this.tr("CreatedAgoByName", { ago: Vue.filter("ago")(post.createdAt), name: post.author.fullName } );
-			},
-
-			editedAgo(post) {
-				if (post.editedAt)
-					return this.tr("EditedAgo", { ago: Vue.filter("ago")(post.editedAt) } );
-			},
-
-			newPost() {
-				this.model = schemaUtils.createDefaultObject(this.schema);
-				this.showForm = true;
-				this.isNewPost = true;
-
-				this.focusFirstInput();
-			},
-
-			editPost(post) {
-				this.model = cloneDeep(post);
-				this.showForm = true;
-				this.isNewPost = false;
-				this.focusFirstInput();
-			},
-
-			focusFirstInput() {
-				this.$nextTick(() => {
-					let el = document.querySelector(".postForm .form-control:nth-child(1):not([readonly]):not(:disabled)");
-					if (el)
-						el.focus();
-				});
-			},
-
-			focusFirstErrorInput() {
-				this.$nextTick(() => {
-					let el = document.querySelector(".postForm .form-group.error .form-control");
-					if (el)
-						el.focus();
-				});
-			},
-
-			savePost() {
-				if (this.$refs.form.validate()) {
-					if (this.isNewPost)
-						this.saveRow(this.model);
-					else
-						this.updateRow(this.model);
-
-					this.cancelPost();
-				} else {
-					this.focusFirstErrorInput();
-				}
-			},
-
-			cancelPost() {
-				this.showForm = false;
-				this.model = null;
-			},
-
-			deletePost(post) {
-				this.removeRow(post);
+				this.cancelPost();
+			} else {
+				this.focusFirstErrorInput();
 			}
-
 		},
 
-		/**
+		cancelPost() {
+			this.showForm = false;
+			this.model = null;
+		},
+
+		deletePost(post) {
+			this.removeRow(post);
+		}
+
+	},
+
+	/**
 		 * Call if the component is created
 		 */
-		created() {
-			this.getRows();
-		}
-	};
+	created() {
+		this.getRows();
+	}
+};
 </script>
 
 <style lang="scss" scoped>

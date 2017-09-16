@@ -3,7 +3,7 @@
 let commands = {
 	submit(email) {
 		return this
-			.waitForElementVisible('@emailField', 10000)
+			.waitForElementVisible("@emailField", 10000)
 			.assert.containsText("@title", "FORGOT")
 			.assert.elementPresent("@emailField")
 			.setValue("@emailField", email)

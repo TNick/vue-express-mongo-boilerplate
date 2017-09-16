@@ -4,7 +4,7 @@ import { LOAD, ADD, SELECT, CLEAR_SELECT, UPDATE, REMOVE } from "./types";
 import axios from "axios";
 
 const NAMESPACE = "/api/devices";
-export const namespace = () => { return NAMESPACE; }
+export const namespace = () => { return NAMESPACE; };
 
 export const selectRow = ({ commit }, row, multiSelect) => {
 	commit(SELECT, row, multiSelect);

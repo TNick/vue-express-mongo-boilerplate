@@ -3,7 +3,7 @@
 let commands = {
 	login(username, password) {
 		return this
-			.waitForElementVisible('@usernameField', 10000)
+			.waitForElementVisible("@usernameField", 10000)
 			.assert.containsText("@title", "LOGIN")
 			.assert.elementPresent("@usernameField")
 			.assert.elementPresent("@passwordField")

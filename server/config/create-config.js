@@ -7,7 +7,7 @@ let tokgen	= require("../libs/tokgen");
 
 let wpkbundle;
 try {
-		/* global WEBPACK_BUNDLE */
+	/* global WEBPACK_BUNDLE */
 	wpkbundle = WEBPACK_BUNDLE;
 } catch(e) {
 	wpkbundle = false;
@@ -38,9 +38,9 @@ module.exports = {
 
 // If the module was invoked directly from command line
 // create config.js from the template right now.
-var args = process.argv.slice(2);
-if ((process.argv[0].indexOf('create-config') !== -1) ||
-    (process.argv[1].indexOf('create-config') !== -1)) {
+let args = process.argv.slice(2);
+if ((process.argv[0].indexOf("create-config") !== -1) ||
+				(process.argv[1].indexOf("create-config") !== -1)) {
 	if (args.length > 1) {
 		if (args[0] === "create") {
 			module.exports.createFromTemplate(args[1]);

@@ -2,7 +2,7 @@ import Vue from "vue";
 import toastr from "../../../core/toastr";
 
 const NAMESPACE = "/api/profile";
-export const namespace = () => { return NAMESPACE; }
+export const namespace = () => { return NAMESPACE; };
 
 import Service from "../../../core/service";
 let service = new Service("profile");

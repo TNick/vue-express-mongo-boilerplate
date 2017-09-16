@@ -258,7 +258,7 @@ function initAuth(app) {
 	require("./auth/passport")(app);
 
 	if (!config.isTestMode()) {
-/*
+		/*
 		// Handle CSRF
 		app.use(csrf());
 

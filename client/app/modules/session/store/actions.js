@@ -3,7 +3,7 @@ import axios from "axios";
 import { ADD_MESSAGE, ADD_NOTIFICATION, SET_USER, SEARCH } from "./types";
 
 const NAMESPACE = "/api/session";
-export const namespace = () => { return NAMESPACE; }
+export const namespace = () => { return NAMESPACE; };
 
 export const getSessionUser = ({ commit }) => {
 	axios.get(NAMESPACE + "/me").then((response) => {

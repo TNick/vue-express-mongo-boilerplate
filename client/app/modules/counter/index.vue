@@ -22,69 +22,69 @@
  import Service from "../../core/service";
 
  export default {
-  /**
+ 	/**
    * Computed getters
    */
-   computed: mapGetters("counter", [
-    "count"
-   ]),
+ 	computed: mapGetters("counter", [
+ 		"count"
+ 	]),
 
-  /**
+ 	/**
    * Page methods
    */
-  methods: {
-   /**
+ 	methods: {
+ 		/**
     * Actions from store
     */
-   ...mapActions("counter", [
-    "getValue",
-    "increment",
-    "decrement",
-    "changedValue"
-   ]),
+ 		...mapActions("counter", [
+ 			"getValue",
+ 			"increment",
+ 			"decrement",
+ 			"changedValue"
+ 		]),
 
-   /**
+ 		/**
     * Increment counter
     */
-   inc() {
-    this.increment();
-   },
+ 		inc() {
+ 			this.increment();
+ 		},
 
-   /**
+ 		/**
     * Decrement counter
     */
-   dec() {
-    this.decrement();
-   }
-  },
+ 		dec() {
+ 			this.decrement();
+ 		}
+ 	},
 
-  /**
+ 	/**
    * Socket handlers. Every property is an event handler
    */
-  socket: {
+ 	socket: {
 
-   prefix: "/counter/",
+ 		prefix: "/counter/",
 
-   //namespace: "/counter",
+ 		//namespace: "/counter",
 
-   events: {
-    /**
+ 		events: {
+ 			/**
      * Counter value is changed
      * @param  {Number} msg Value of counter
      */
-    changed(res) {
-     console.log("Counter changed to " + res.data + (res.user ? " by " + res.user.fullName : ""));
-     this.changedValue(res.data);
-    }
-   }
-  },
+ 			changed(res) {
+ 				console.log("Counter changed to " + res.data + (res.user ? " by " + res.user.fullName : ""));
+ 				this.changedValue(res.data);
+ 			}
+ 		}
+ 	},
 
-  created() {
-   this.$service = new Service("counter", this);
+ 	created() {
+ 		this.$service = new Service("counter", this);
 
-   // Get the latest value of counter
-   this.getValue();
-  }
+ 		// Get the latest value of counter
+ 		this.getValue();
+ 	}
  };
 
 </script>

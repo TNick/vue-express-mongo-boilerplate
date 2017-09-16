@@ -44,28 +44,28 @@ module.exports = function() {
 			users.push(test.save());
 
 			return Promise.all(users)
-			.then(() => {
-				if (!config.isProductionMode()) {
+				.then(() => {
+					if (!config.isProductionMode()) {
 					// Create fake users
-					return Promise.all(_.times(10, () => {
-						let fakeUser = fakerator.entity.user();
-						let user = new User({
-							fullName: fakeUser.firstName + " " + fakeUser.lastName,
-							email: fakeUser.email,
-							username: fakeUser.userName,
-							password: fakeUser.password,
-							provider: "local",
-							roles: [C.ROLE_USER],
-							verified: true
+						return Promise.all(_.times(10, () => {
+							let fakeUser = fakerator.entity.user();
+							let user = new User({
+								fullName: fakeUser.firstName + " " + fakeUser.lastName,
+								email: fakeUser.email,
+								username: fakeUser.userName,
+								password: fakeUser.password,
+								provider: "local",
+								roles: [C.ROLE_USER],
+								verified: true
 							//apiKey: tokgen()
-						});
-						users.push(user.save());					
-					}));
-				}				
-			})
-			.then(() => {
-				logger.warn("Default users created!");
-			});
+							});
+							users.push(user.save());					
+						}));
+					}				
+				})
+				.then(() => {
+					logger.warn("Default users created!");
+				});
 		}
 	}).catch((err) => {
 		logger.error(err);

@@ -5,7 +5,7 @@ import { LOAD, LOAD_MORE, ADD, UPDATE, VOTE, UNVOTE, REMOVE,
 	NO_MORE_ITEMS, FETCHING, CHANGE_SORT, CHANGE_VIEWMODE } from "./types";
 
 const NAMESPACE = "/api/posts";
-export const namespace = () => { return NAMESPACE; }
+export const namespace = () => { return NAMESPACE; };
 
 let service = new Service("posts");
 

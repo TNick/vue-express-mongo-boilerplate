@@ -31,9 +31,9 @@ module.exports = {
 				return User.findById(User.schema.methods.decodeID(ctx.user.code)).exec().then( (doc) => {
 					return this.toJSON(doc);
 				})
-				.then((json) => {
-					return this.populateModels(json);
-				});
+					.then((json) => {
+						return this.populateModels(json);
+					});
 			}
 		}
 	},
