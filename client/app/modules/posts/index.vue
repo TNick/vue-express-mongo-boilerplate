@@ -63,6 +63,7 @@
 </template>
 
 <script>
+ /* global _ */
 	import Vue from "vue";
 	import marked from "marked";
 	import toast from "../../core/toastr";
@@ -104,7 +105,7 @@
 							required: true,
 							placeholder: this.tr("TitleOfPost"),
 							validator: validators.string
-						},				
+						},
 						{
 							type: "textArea",
 							label: this.tr("Content"),
@@ -163,11 +164,11 @@
 				 * @param  {Object} res Post object
 				 */
 				removed(res) {
-					this.removed(res.data);	
+					this.removed(res.data);
 					toast.success(this.tr("PostNameDeleted", res), this.tr("PostDeleted"));
 				}
 			}
-		},	
+		},
 
 		methods: {
 			...mapActions("posts", [
@@ -195,7 +196,7 @@
 			toggleVote(post) {
 				if (this.iVoted(post))
 					this.unVote(post);
-				else 
+				else
 					this.vote(post);
 			},
 
@@ -245,7 +246,7 @@
 					if (el)
 						el.focus();
 				});
-			},			
+			},
 
 			savePost() {
 				if (this.$refs.form.validate()) {
@@ -364,9 +365,9 @@
 				}
 			}
 
-			.media-content {				
+			.media-content {
 				overflow-x: auto;
-				
+
 				h3 {
 					margin: 0 0 0.5em 0;
 				}
