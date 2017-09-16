@@ -1,40 +1,40 @@
 "use strict";
 
-let logger 			= require("./logger");
-let config 			= require("../config");
-let redis 			= require("./redis");
+let logger = require("./logger");
+let config = require("../config");
+let redis = require("./redis");
 
-let express 		= require("express");
-let http 			= require("http");
-let path 			= require("path");
+let express = require("express");
+let http = require("http");
+let path = require("path");
 
-let moment 			= require("moment");
-let flash 			= require("express-flash");
-let favicon 		= require("serve-favicon");
-let morgan 			= require("morgan");
-let bodyParser 		= require("body-parser");
+let moment = require("moment");
+let flash = require("express-flash");
+let favicon = require("serve-favicon");
+let morgan = require("morgan");
+let bodyParser = require("body-parser");
 let cookieParser	= require("cookie-parser");
-let validator 		= require("express-validator");
-let csrf 			= require("csurf");
-let netjet			= require("netjet");
+let validator = require("express-validator");
+let csrf = require("csurf");
+let netjet = require("netjet");
 
-let session 		= require("express-session");
-let compress 		= require("compression");
-let methodOverride 	= require("method-override");
-let helmet 			= require("helmet");
-let crossdomain 	= require("helmet-crossdomain");
-let mongoose 		= require("mongoose");
-let MongoStore 		= require("connect-mongo")(session);
+let session = require("express-session");
+let compress = require("compression");
+let methodOverride = require("method-override");
+let helmet = require("helmet");
+let crossdomain = require("helmet-crossdomain");
+let mongoose = require("mongoose");
+let MongoStore = require("connect-mongo")(session);
 
-let i18next 		= require("i18next");
-let i18nextExpress 	= require("i18next-express-middleware");
-let i18nextFs 		= require("i18next-node-fs-backend");
+let i18next = require("i18next");
+let i18nextExpress = require("i18next-express-middleware");
+let i18nextFs = require("i18next-node-fs-backend");
 
 let serverFolder = path.normalize(path.join(config.rootPath, "server"));
 
 /**
  * Initialize local variables
- * 
+ *
  * @param {any} app
  */
 function initLocalVariables(app) {
@@ -53,7 +53,7 @@ function initLocalVariables(app) {
 
 /**
  * Initialize middlewares
- * 
+ *
  * @param {any} app
  */
 function initMiddleware(app) {
@@ -75,7 +75,7 @@ function initMiddleware(app) {
 		limit: config.contentMaxLength * 2
 	}));
 	app.use(validator());
-	app.use(bodyParser.json());	
+	app.use(bodyParser.json());
 	app.use(methodOverride());
 
 	if (config.isProductionMode()) {
@@ -99,7 +99,7 @@ function initMiddleware(app) {
 
 	app.set("etag", true); // other values 'weak', 'strong'
 
-	app.use(flash());	
+	app.use(flash());
 
 	if (config.isDevMode()) {
 		// Init morgan
@@ -109,7 +109,7 @@ function initMiddleware(app) {
 		lmStream.writable = true;
 		lmStream.write = function(data) {
 			return logger.debug(data);
-		};	
+		};
 
 		app.use(morgan("dev", {
 			stream: lmStream
@@ -121,15 +121,30 @@ function initMiddleware(app) {
 
 /**
  * Initialize i18next module for localization
- * 
+ *
  * @param {any} app
  */
 function initI18N(app) {
 
+	// We're autodetecting the languages in locales directory.
+	const { lstatSync, readdirSync } = require('fs')
+	const isDirectory = source => lstatSync(source).isDirectory()
+	const getDirectories = source => {
+		let result = ["fuk you"];
+		let candidates = readdirSync(source);
+		for (const itr in candidates) {
+			if (isDirectory(path.join(source, candidates[itr]))) {
+				result.push(candidates[itr]);
+			}
+		}
+		return result;
+	}
+ let localesDir = path.join(serverFolder, "locales");
+
 	let conf = {
 		//debug: true,
 		fallbackLng: "en",
-		whitelist: ["en", "hu"],
+		whitelist: getDirectories(localesDir),
 		ns: ["app", "frontend"],
 		defaultNS: "frontend",
 		load: "all",
@@ -138,7 +153,7 @@ function initI18N(app) {
 
 		backend: {
 			// path where resources get loaded from
-			loadPath: path.join(serverFolder, "locales", "{{lng}}", "{{ns}}.json"),
+			loadPath: path.join(localesDir, "{{lng}}", "{{ns}}.json"),
 
 			// path to post missing resources
 			addPath: path.join(serverFolder, "locales", "{{lng}}", "{{ns}}.missing.json"),
@@ -177,15 +192,15 @@ function initI18N(app) {
 	app.use(i18nextExpress.handle(i18next));
 
 	// multiload backend route
-	app.get("/locales/resources.json", i18nextExpress.getResourcesHandler(i18next));	
+	app.get("/locales/resources.json", i18nextExpress.getResourcesHandler(i18next));
 
 	// missing keys
-	app.post("/locales/add/:lng/:ns", i18nextExpress.missingKeyHandler(i18next));		
+	app.post("/locales/add/:lng/:ns", i18nextExpress.missingKeyHandler(i18next));
 }
 
 /**
  * Initialize view engine (pug)
- * 
+ *
  * @param {any} app
  */
 function initViewEngine(app) {
@@ -213,7 +228,7 @@ function initViewEngine(app) {
 
 /**
  * Initialize session handler (mongo-store)
- * 
+ *
  * @param {any} app
  * @param {any} db
  */
@@ -235,7 +250,7 @@ function initSession(app, db) {
 
 /**
  * Initiliaze Helmet security module
- * 
+ *
  * @param {any} app
  */
 function initHelmetHeaders(app) {
@@ -250,7 +265,7 @@ function initHelmetHeaders(app) {
 
 /**
  * Initialize authentication & CSRF
- * 
+ *
  * @param {any} app
  */
 function initAuth(app) {
@@ -275,14 +290,14 @@ function initAuth(app) {
 
 /**
  * Initialize Webpack hot reload module.
- * 	Note: Only in development mode 
- * 
+ * 	Note: Only in development mode
+ *
  * @param {any} app
  */
 function initWebpack(app) {
 	// Webpack middleware in development mode
 	if (!config.isProductionMode()) {
-		let webpack	 = require("webpack");
+		let webpack = require("webpack");
 		let wpConfig = require("../../build/webpack.dev.config");
 
 		let compiler = webpack(wpConfig);
