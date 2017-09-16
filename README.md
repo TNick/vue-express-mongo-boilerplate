@@ -47,8 +47,8 @@ Inspired by [dstroot/skeleton](https://github.com/dstroot/skeleton) and [sahat/h
 * [x] [Babel](https://babeljs.io/)
 * [x] [Passwordless](https://www.sitepoint.com/passwordless-authentication-works/) mode
 * [x] [Passport.JS](http://passportjs.org/)
-	* Social signup/login with Facebook, Google, Twitter and Github
-	* API key authentication for REST API calls
+* Social signup/login with Facebook, Google, Twitter and Github
+* API key authentication for REST API calls
 * [x] [Toastr](https://github.com/CodeSeven/toastr)
 * [x] [vue-form-generator](https://github.com/icebob/vue-form-generator)
 
@@ -73,6 +73,8 @@ yarn
 
 For development
 ```bash
+$ # first make sure you have nodemon installed
+$ npm install -g nodemon
 $ npm run dev
 ```
 
@@ -251,6 +253,12 @@ These are the instructions for Twitter:
 - Check the box **Allow this application to be used to Sign in with Twitter**
 - Click **Update this Twitter's applications settings**
 - Copy and paste *Consumer Key* and *Consumer Secret* keys into `config.js` file
+
+## Windows Install
+- Ensure Git is installed. https://git-scm.com/download/win
+- Add the following to Windows `PATH` variable:  
+	- C:\Program Files\Git\usr\bin 
+	
 
 ## License
 
