@@ -4,25 +4,25 @@
 			.title {{ "General" | i18n }}
 			ul
 				router-link(tag="li", to="/")
-					a(:title="_('Home')")
+					a(:title="tr('Home')")
 						span.icon
 							i.fa.fa-home
 						span.label {{ "Home" | i18n }}
 
 				router-link(tag="li", to="/counter")
-					a(:title="_('Demo')")
+					a(:title="tr('Demo')")
 						span.icon
 							i.fa.fa-tasks
 						span.label {{ "Demo" | i18n }}
 
 				router-link(tag="li", to="/devices")
-					a(:title="_('Devices')")
+					a(:title="tr('Devices')")
 						span.icon
 							i.fa.fa-tablet
 						span.label {{ "Devices" | i18n }}
 
 				router-link(tag="li", to="/posts")
-					a(:title="_('Posts')")
+					a(:title="tr('Posts')")
 						span.icon
 							i.fa.fa-comments
 						span.label {{ "Posts" | i18n }}
@@ -30,7 +30,7 @@
 			.title {{ "Profile" | i18n }}
 			ul
 				li
-					a(href="/logout", :title="_('Logout')")
+					a(href="/logout", :title="tr('Logout')")
 						span.icon
 							i.fa.fa-sign-out
 						span.label {{ "Logout" | i18n }}

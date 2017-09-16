@@ -1,28 +1,28 @@
 <template lang="pug">
 	.container
-		h2.title {{ _('Posts') }}
+		h2.title {{ tr('Posts') }}
 
 		.header.flex.row.justify-space-between
 			.group.sort
-				a.link(@click="changeSort('-votes')", :class="{ active: sort == '-votes' }") {{ _("Hot") }}
-				a.link(@click="changeSort('-views')", :class="{ active: sort == '-views' }") {{ _("MostViewed") }}
-				a.link(@click="changeSort('-createdAt')", :class="{ active: sort == '-createdAt' }") {{ _("New") }}
+				a.link(@click="changeSort('-votes')", :class="{ active: sort == '-votes' }") {{ tr("Hot") }}
+				a.link(@click="changeSort('-views')", :class="{ active: sort == '-views' }") {{ tr("MostViewed") }}
+				a.link(@click="changeSort('-createdAt')", :class="{ active: sort == '-createdAt' }") {{ tr("New") }}
 
 			button.button.primary(@click="newPost")
 				span.icon
 					i.fa.fa-plus
-				span {{ _("NewPost") }}
+				span {{ tr("NewPost") }}
 
 			.group.filter
-				a.link(@click="changeViewMode('all')", :class="{ active: viewMode == 'all' }") {{ _("AllPosts") }}
-				a.link(@click="changeViewMode('my')", :class="{ active: viewMode == 'my' }") {{ _("MyPosts") }}
+				a.link(@click="changeViewMode('all')", :class="{ active: viewMode == 'all' }") {{ tr("AllPosts") }}
+				a.link(@click="changeViewMode('my')", :class="{ active: viewMode == 'my' }") {{ tr("MyPosts") }}
 
 		.postForm(v-if="showForm")
 			vue-form-generator(:schema='schema', :model='model', :options='{}', :multiple="false", ref="form", :is-new-model="isNewPost")
 
 			.group.buttons
-				button.button.primary(@click="savePost") {{ _("Save") }}
-				button.button(@click="cancelPost") {{ _("Cancel") }}
+				button.button.primary(@click="savePost") {{ tr("Save") }}
+				button.button(@click="cancelPost") {{ tr("Cancel") }}
 
 
 		transition-group.posts(name="post", tag="ul")
@@ -42,11 +42,11 @@
 						hr.full
 						.row
 							.functions.left
-								a(:title="_('EditPost')", @click="editPost(post)")
+								a(:title="tr('EditPost')", @click="editPost(post)")
 									i.fa.fa-pencil
-								a(:title="_('DeletePost')", @click="deletePost(post)")
+								a(:title="tr('DeletePost')", @click="deletePost(post)")
 									i.fa.fa-trash
-							.voters.left(:title="_('Voters')")
+							.voters.left(:title="tr('Voters')")
 								template(v-for="voter in lastVoters(post)")
 									img(:src="voter.avatar", :title="voter.fullName + ' (' + voter.username + ')'")
 							.right.text-right
@@ -56,7 +56,7 @@
 								small.text-muted {{ createdAgo(post) }}
 
 		.loadMore.text-center(v-if="hasMore")
-			button.button.outline(@click="loadMoreRows", :class="{ 'loading': fetching }") {{ _("LoadMore") }}
+			button.button.outline(@click="loadMoreRows", :class="{ 'loading': fetching }") {{ tr("LoadMore") }}
 		.noMore.text-center(v-if="!hasMore")
 			span.text-muted You reached the end of the list.
 		hr
@@ -98,21 +98,21 @@
 					fields: [
 						{
 							type: "text",
-							label: this._("Title"),
+							label: this.tr("Title"),
 							model: "title",
 							featured: true,
 							required: true,
-							placeholder: this._("TitleOfPost"),
+							placeholder: this.tr("TitleOfPost"),
 							validator: validators.string
 						},				
 						{
 							type: "textArea",
-							label: this._("Content"),
+							label: this.tr("Content"),
 							model: "content",
 							featured: true,
 							required: true,
 							rows: 10,
-							placeholder: this._("ContentOfPost"),
+							placeholder: this.tr("ContentOfPost"),
 							validator: validators.string
 						}
 					]
@@ -136,7 +136,7 @@
 				We don't use it because we don't know we need to add it to the page (filter, sort..etc)
 				created(res) {
 					this.created(res.data);
-					toast.success(this._("PostNameAdded", res), this._("PostAdded"));
+					toast.success(this.tr("PostNameAdded", res), this.tr("PostAdded"));
 				},*/
 
 				/**
@@ -145,17 +145,17 @@
 				 */
 				updated(res) {
 					this.updated(res.data);
-					toast.success(this._("PostNameUpdated", res), this._("PostUpdated"));
+					toast.success(this.tr("PostNameUpdated", res), this.tr("PostUpdated"));
 				},
 
 				voted(res) {
 					this.updated(res.data);
-					toast.success(this._("PostNameVoted", res), this._("PostUpdated"));
+					toast.success(this.tr("PostNameVoted", res), this.tr("PostUpdated"));
 				},
 
 				unvoted(res) {
 					this.updated(res.data);
-					toast.success(this._("PostNameUnvoted", res), this._("PostUpdated"));
+					toast.success(this.tr("PostNameUnvoted", res), this.tr("PostUpdated"));
 				},
 
 				/**
@@ -164,7 +164,7 @@
 				 */
 				removed(res) {
 					this.removed(res.data);	
-					toast.success(this._("PostNameDeleted", res), this._("PostDeleted"));
+					toast.success(this.tr("PostNameDeleted", res), this.tr("PostDeleted"));
 				}
 			}
 		},	
@@ -208,12 +208,12 @@
 			},
 
 			createdAgo(post) {
-				return this._("CreatedAgoByName", { ago: Vue.filter("ago")(post.createdAt), name: post.author.fullName } );
+				return this.tr("CreatedAgoByName", { ago: Vue.filter("ago")(post.createdAt), name: post.author.fullName } );
 			},
 
 			editedAgo(post) {
 				if (post.editedAt)
-					return this._("EditedAgo", { ago: Vue.filter("ago")(post.editedAt) } );
+					return this.tr("EditedAgo", { ago: Vue.filter("ago")(post.editedAt) } );
 			},
 
 			newPost() {

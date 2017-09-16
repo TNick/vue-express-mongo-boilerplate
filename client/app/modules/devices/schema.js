@@ -5,18 +5,18 @@ import { validators } from "vue-form-generator";
 
 import { find } from "lodash";
 
-let _ = Vue.prototype._;
+let tr = Vue.prototype.tr;
 
 module.exports = {
 
 	id: "devices",
-	title: _("Devices"),
+	title: tr("Devices"),
 
 	table: {
 		multiSelect: true,
 		columns: [
 			{
-				title: _("ID"),
+				title: tr("ID"),
 				field: "code",
 				align: "left",
 				formatter(value, model) {
@@ -24,7 +24,7 @@ module.exports = {
 				}
 			},
 			{
-				title: _("Type"),
+				title: tr("Type"),
 				field: "type",
 				formatter(value) {
 					let type = find(deviceTypes, (type) => type.id == value);
@@ -32,15 +32,15 @@ module.exports = {
 				}
 			},
 			{
-				title: _("Address"),
+				title: tr("Address"),
 				field: "address"
 			},
 			{
-				title: _("Name"),
+				title: tr("Name"),
 				field: "name"
 			},
 			{
-				title: _("Status"),
+				title: tr("Status"),
 				field: "status",
 				formatter(value, model, col) {
 					return value ? "<i class='fa fa-check'/>" : "<i class='fa fa-ban'/>";
@@ -48,7 +48,7 @@ module.exports = {
 				align: "center"
 			},
 			{
-				title: _("LastCommunication"),
+				title: tr("LastCommunication"),
 				field: "lastCommunication",
 				formatter(value) {
 					return moment(value).fromNow();
@@ -68,7 +68,7 @@ module.exports = {
 		fields: [
 			{
 				type: "text",
-				label: _("ID"),
+				label: tr("ID"),
 				model: "code",
 				readonly: true,
 				disabled: true,
@@ -77,57 +77,57 @@ module.exports = {
 					if (model.code)
 						return model.code;
 					else
-						return _("willBeGenerated");
+						return tr("willBeGenerated");
 				}
 			},
 			{
 				type: "select",
-				label: _("Type"),
+				label: tr("Type"),
 				model: "type",
 				required: true,
 				values: deviceTypes,
 				default: "rasperry",
 				validator: validators.required
 
-			},	
+			},
 			{
 				type: "text",
-				label: _("Name"),
+				label: tr("Name"),
 				model: "name",
 				featured: true,
 				required: true,
-				placeholder: _("DeviceName"),
+				placeholder: tr("DeviceName"),
 				validator: validators.string
 			},
 			{
 				type: "text",
-				label: _("Description"),
+				label: tr("Description"),
 				model: "description",
 				featured: false,
 				required: false,
 				validator: validators.string
-			},	
+			},
 			{
 				type: "text",
-				label: _("Address"),
+				label: tr("Address"),
 				model: "address",
-				placeholder: _("AddressOfDevice"),
+				placeholder: tr("AddressOfDevice"),
 				validator: validators.string
 			},
 			{
 				type: "label",
-				label: _("LastCommunication"),
+				label: tr("LastCommunication"),
 				model: "lastCommunication",
 				get(model) { return model && model.lastCommunication ? moment(model.lastCommunication).fromNow() : "-"; }
 			},
 			{
 				type: "switch",
-				label: _("Status"),
+				label: tr("Status"),
 				model: "status",
 				multi: true,
 				default: 1,
-				textOn: _("Active"),
-				textOff: _("Inactive"),
+				textOn: tr("Active"),
+				textOff: tr("Inactive"),
 				valueOn: 1,
 				valueOff: 0
 			}
@@ -162,10 +162,10 @@ module.exports = {
 	},
 
 	resources: {
-		addCaption: _("AddNewDevice"),
-		saveCaption: _("Save"),
-		cloneCaption: _("Clone"),
-		deleteCaption: _("Delete")
+		addCaption: tr("AddNewDevice"),
+		saveCaption: tr("Save"),
+		cloneCaption: tr("Clone"),
+		deleteCaption: tr("Delete")
 	}
 
 };

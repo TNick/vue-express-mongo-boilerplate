@@ -44,7 +44,7 @@
 				 */
 				created(res) {
 					this.created(res.data);
-					toast.success(this._("DeviceNameAdded", res), this._("DeviceAdded"));
+					toast.success(this.tr("DeviceNameAdded", res), this.tr("DeviceAdded"));
 				},
 
 				/**
@@ -53,7 +53,7 @@
 				 */
 				updated(res) {
 					this.updated(res.data);
-					toast.success(this._("DeviceNameUpdated", res), this._("DeviceUpdated"));
+					toast.success(this.tr("DeviceNameUpdated", res), this.tr("DeviceUpdated"));
 				},
 
 				/**
@@ -62,7 +62,7 @@
 				 */
 				removed(res) {
 					this.removed(res.data);	
-					toast.success(this._("DeviceNameDeleted", res), this._("DeviceDeleted"));
+					toast.success(this.tr("DeviceNameDeleted", res), this.tr("DeviceDeleted"));
 				}
 			}
 		},		

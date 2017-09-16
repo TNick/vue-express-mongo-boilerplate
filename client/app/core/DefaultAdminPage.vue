@@ -6,8 +6,8 @@
 			.left(v-if="enabledNew")
 				button.button.is-primary(@click="newModel")
 					i.icon.fa.fa-plus 
-					| {{ schema.resources.addCaption || _("Add") }}
-			.right {{ _("SelectedOfAll", { selected: selected.length, all: rows.length } ) }}
+					| {{ schema.resources.addCaption || tr("Add") }}
+			.right {{ tr("SelectedOfAll", { selected: selected.length, all: rows.length } ) }}
 
 		data-table(:schema="schema.table", :rows="rows", :order="order", :search="search", :selected="selected", :select="select", :select-all="selectAll")
 
@@ -21,13 +21,13 @@
 			.buttons.flex.justify-space-around
 				button.button.primary(@click="saveModel", :disabled="!enabledSave")
 					i.icon.fa.fa-save 
-					| {{ schema.resources.saveCaption || _("Save") }}
+					| {{ schema.resources.saveCaption || tr("Save") }}
 				button.button.outline(@click="cloneModel", :disabled="!enabledClone")
 					i.icon.fa.fa-copy 
-					| {{ schema.resources.cloneCaption || _("Clone") }}
+					| {{ schema.resources.cloneCaption || tr("Clone") }}
 				button.button.danger(@click="deleteModel", :disabled="!enabledDelete")
 					i.icon.fa.fa-trash 
-					| {{ schema.resources.deleteCaption || _("Delete") }}
+					| {{ schema.resources.deleteCaption || tr("Delete") }}
 
 </template>
 
