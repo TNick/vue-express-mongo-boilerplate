@@ -3,7 +3,8 @@ import toastr from "../../../core/toastr";
 import { LOAD, ADD, SELECT, CLEAR_SELECT, UPDATE, REMOVE } from "./types";
 import axios from "axios";
 
-export const NAMESPACE = "/api/devices";
+const NAMESPACE = "/api/devices";
+export const namespace = () => { return NAMESPACE; }
 
 export const selectRow = ({ commit }, row, multiSelect) => {
 	commit(SELECT, row, multiSelect);
@@ -36,7 +37,7 @@ export const saveRow = ({ commit }, model) => {
 	}).catch((response) => {
 		if (response.data.error)
 			toastr.error(response.data.error.message);
-	});		
+	});
 };
 
 export const created = ({ commit }, row, needSelect) => {
@@ -53,7 +54,7 @@ export const updateRow = ({ commit }, row) => {
 	}).catch((response) => {
 		if (response.data.error)
 			toastr.error(response.data.error.message);
-	});	
+	});
 };
 
 export const updated = ({ commit }, row) => {

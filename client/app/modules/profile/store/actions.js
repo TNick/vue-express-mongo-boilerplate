@@ -1,10 +1,11 @@
 import Vue from "vue";
 import toastr from "../../../core/toastr";
 
-export const NAMESPACE = "/api/profile";
+const NAMESPACE = "/api/profile";
+export const namespace = () => { return NAMESPACE; }
 
 import Service from "../../../core/service";
-let service = new Service("profile"); 
+let service = new Service("profile");
 
 export const getProfile = function ({ commit }) {
 	service.rest("get").then((data) => {
