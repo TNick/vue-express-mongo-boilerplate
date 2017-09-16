@@ -18,7 +18,7 @@
     "test": "npm run test:unit && npm run test:e2e",
     "ci": "cross-env NODE_ENV=test nodemon --exec \"mocha --require babel-core/register --reporter dot --watch tests/unit\" tests/unit",
     "lint": "eslint --ext=.js,.vue client server",
-    "lint:fix": "eslint --fix --ext=.js,.vue client server",
+    "lint:fix": "eslint --fix --ext=.js,.vue build client server tests",
     "snyk-protect": "snyk protect",
     "typings": "typings install",
     "default-config": "node server/config/create-config.js touch config.js",
