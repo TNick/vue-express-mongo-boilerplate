@@ -4,7 +4,7 @@ let logger = require("./logger");
 let config = require("../config");
 let redis = require("./redis");
 
-let express = require("express");
+let express = require("feathers");
 let http = require("http");
 let path = require("path");
 
@@ -87,9 +87,9 @@ function initMiddleware(app) {
 			}
 		}));
 
-		// Setting up static folder
-		app.use(express["static"](path.join(serverFolder, "public")));
 	}
+	// Setting up static folder
+	app.use(express["static"](path.join(serverFolder, "public")));
 
 	// Favicon
 	app.use(favicon(path.join(serverFolder, "public", "favicon.ico")));

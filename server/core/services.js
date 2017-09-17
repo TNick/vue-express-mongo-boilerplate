@@ -1,28 +1,28 @@
 "use strict";
 
-let logger 			= require("./logger");
-let config 			= require("../config");
+let logger = require("./logger");
+let config = require("../config");
 
 let EventEmitter	= require("events").EventEmitter;
-let	path 			= require("path");
-let	fs 				= require("fs");
-let	util 			= require("util");
-let _ 				= require("lodash");
-let chalk 			= require("chalk");
-let express			= require("express");
+let	path = require("path");
+let	fs = require("fs");
+let	util = require("util");
+let _ = require("lodash");
+let chalk = require("chalk");
+let express = require("feathers");
 
-let C 				= require("./constants");
-let Context 		= require("./context");
-let auth			= require("./auth/helper");
-let response		= require("./response");
+let C = require("./constants");
+let Context = require("./context");
+let auth = require("./auth/helper");
+let response = require("./response");
 
 let listEndpoints	= require("express-list-endpoints");
-let Table			= require("cli-table2");
+let Table = require("cli-table2");
 
-let GraphQLScalarType 	= require("graphql").GraphQLScalarType;
-let Kind				= require("graphql/language").Kind;
+let GraphQLScalarType = require("graphql").GraphQLScalarType;
+let Kind = require("graphql/language").Kind;
 
-let Service			= require("./service");
+let Service = require("./service");
 
 /* global WEBPACK_BUNDLE */
 if (!WEBPACK_BUNDLE) require("require-webpack-compat")(module, require);
