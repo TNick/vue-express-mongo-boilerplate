@@ -87,9 +87,9 @@ function initMiddleware(app) {
 			}
 		}));
 
-		// Setting up static folder
-		app.use(express["static"](path.join(serverFolder, "public")));
 	}
+	// Setting up static folder
+	app.use(express["static"](path.join(serverFolder, "public")));
 
 	// Favicon
 	app.use(favicon(path.join(serverFolder, "public", "favicon.ico")));
